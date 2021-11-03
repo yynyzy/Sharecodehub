@@ -3,5 +3,5 @@ const config = require('./app/config')
 
 
 app.listen(config.APP_PORT, () => {
-    console.log(`服务器在端口${APP_PORT}已启动~`);
+    console.log(`服务器在端口${config.APP_PORT}已启动~`);
 })
