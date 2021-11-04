@@ -1,8 +1,11 @@
-//用于在插入数据库前检查 用户的 账号和密码是否符合条件
+/*
+*   用于在插入数据库前检查 用户的 账号和密码是否符合条件
+*/
 const errType = require("../constants/error-types")
 const service = require("../service/user.service")
-const MD5password = require("../utils/password-handle")
+const MD5password = require("../utils/MD5.utils")
 
+//判断注册是否符合规范
 const vertifyUser = async (ctx, next) => {
     //1.获取 user，password
     const { name, password } = ctx.request.body;
@@ -21,7 +24,7 @@ const vertifyUser = async (ctx, next) => {
     }
     await next()
 }
-
+//对用户密码加密
 const passwordHandle = async (ctx, next) => {
 
     let { password } = ctx.request.body;

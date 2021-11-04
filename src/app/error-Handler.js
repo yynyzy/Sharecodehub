@@ -12,6 +12,10 @@ const errorHandler = (err, ctx) => {
             status = 409 //conflict
             message = "用户已经存在"
             break;
+        case errorTypes.USER_DOES_NOT_EXISTS:
+            status = 409 //conflict
+            message = "用户不存在"
+            break;
         default:
             status = 404
             message = "NOT_FOUND"
