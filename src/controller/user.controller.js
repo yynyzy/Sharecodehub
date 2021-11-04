@@ -1,3 +1,4 @@
+//处理路由功能
 const service = require('../service/user.service')
 
 class UserController {

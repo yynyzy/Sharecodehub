@@ -1,6 +1,8 @@
 //用于在插入数据库前检查 用户的 账号和密码是否符合条件
 const errType = require("../constants/error-types")
 const service = require("../service/user.service")
+const MD5password = require("../utils/password-handle")
+
 const Vertify = async (ctx, next) => {
     //1.获取 user，password
     const { name, password } = ctx.request.body;
@@ -16,7 +18,17 @@ const Vertify = async (ctx, next) => {
         const error = new Error(errType.USER_ALREADY_EXISTS)
         return ctx.app.emit('error', error, ctx)
     }
-    next()
+    await next()
+
 }
 
-module.exports = Vertify
+const passwordHandle = async (ctx, next) => {
+    let { password } = ctx.request.body;
+    ctx.request.body.password = MD5password(password);
+    await next()
+}
+
+module.exports = {
+    Vertify,
+    passwordHandle
+}
