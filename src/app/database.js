@@ -9,8 +9,8 @@ const connections = mysql.createPool({
     database: config.MYSQL_DATABASE,
 })
 
-connections.getConnection((err, connection) => {
-    connection.connect(err => {
+connections.getConnection((err, conn) => {
+    conn.connect(err => {
         if (err) {
             console.log("数据库连接失败");
         } else {
@@ -19,4 +19,5 @@ connections.getConnection((err, connection) => {
     })
 })
 
+//传出去一个 promise 形式的连接池
 module.exports = connections.promise()
