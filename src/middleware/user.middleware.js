@@ -3,7 +3,7 @@ const errType = require("../constants/error-types")
 const service = require("../service/user.service")
 const MD5password = require("../utils/password-handle")
 
-const Vertify = async (ctx, next) => {
+const vertifyUser = async (ctx, next) => {
     //1.获取 user，password
     const { name, password } = ctx.request.body;
 
@@ -29,6 +29,6 @@ const passwordHandle = async (ctx, next) => {
 }
 
 module.exports = {
-    Vertify,
+    vertifyUser,
     passwordHandle
 }
