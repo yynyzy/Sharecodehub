@@ -1,10 +1,12 @@
 /*
 *   验证登录账号是否合法
 */
+const jwt = require("jsonwebtoken")
+
 const errType = require("../constants/error-types")
 const service = require("../service/user.service")
 const MD5password = require("../utils/MD5.utils")
-
+const { PUBLIC_KEY } = require("../app/keys/public.key")
 
 const verifyLogin = async (ctx, next) => {
     const { name, password } = ctx.request.body
@@ -21,15 +23,35 @@ const verifyLogin = async (ctx, next) => {
         const error = new Error(errType.USER_DOES_NOT_EXISTS)
         return ctx.app.emit('error', error, ctx)
     }
-    console.log(user);
     // 3.检查密码是否错误，使用加密后的hash值进行比对
     const _password = MD5password(password)
     if (_password !== user.password) {
         const error = new Error(errType.PASSWORD_IS_INCORRECT)
         return ctx.app.emit('error', error, ctx)
     }
+    ctx.user = user
     await next()
 }
+//验证用户是否授权
+const vertifyAuth = async (ctx, next) => {
+    //1.获取 token
+    const authorization = ctx.headers.authorization
+    const token = authorization.replace("Bearer ", "")
+    console.log(token);
+    //2.验证token
+    try {
+        const result = jwt.verify(token, PUBLIC_KEY, {
+            algorithms: ['RS256']
+        })
+        ctx.user = result
+        await next()
+    } catch (err) {
+        const error = new Error(errType.UNAUTHORIZED)
+        return ctx.app.emit('error', error, ctx)
+    }
+
+}
 module.exports = {
-    verifyLogin
+    verifyLogin,
+    vertifyAuth
 }
