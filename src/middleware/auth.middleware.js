@@ -10,7 +10,6 @@ const verifyLogin = async (ctx, next) => {
     const { name, password } = ctx.request.body
     //1.判断 是否为空
     if (!name || !password) {
-        console.log(1);
         const error = new Error(errType.NAME_OR_PASSWORD_IS_REQUIRED)
         return ctx.app.emit('error', error, ctx)
     }

@@ -18,7 +18,6 @@ const vertifyUser = async (ctx, next) => {
     //判断是否有相同的名字，有就无法注册
     const result = await service.getUserByName(name)
     if (result.length) {
-        console.log(result);
         const error = new Error(errType.USER_ALREADY_EXISTS)
         return ctx.app.emit('error', error, ctx)
     }
