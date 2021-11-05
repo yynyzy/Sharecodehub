@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken")
 const errType = require("../constants/error-types")
 const service = require("../service/user.service")
 const MD5password = require("../utils/MD5.utils")
-const { PUBLIC_KEY } = require("../app/keys/public.key")
+const { PUBLIC_KEY } = require("../app/config")
 
 const verifyLogin = async (ctx, next) => {
     const { name, password } = ctx.request.body
