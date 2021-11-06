@@ -27,6 +27,12 @@ class MomentCroller {
         const result = await momentService.update(content, momentId)
         ctx.body = result
     }
+    //用于删除用户的心情文章
+    async remove(ctx, next) {
+        const { momentId } = ctx.params
+        const result = await momentService.remove(momentId)
+        ctx.body = result
+    }
 }
 
 module.exports = new MomentCroller()

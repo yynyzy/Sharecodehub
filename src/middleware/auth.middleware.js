@@ -20,7 +20,6 @@ const verifyLogin = async (ctx, next) => {
     const result = await UserService.getUserByName(name)
     //取result数组中的第一个是否存在，不存在表示数据库中没有这个用户
     const user = result[0]
-    console.log(user);
     if (!user) {
         const error = new Error(errType.USER_DOES_NOT_EXISTS)
         return ctx.app.emit('error', error, ctx)
@@ -66,7 +65,6 @@ const vertifyPermission = async (ctx, next) => {
     const { momentId } = ctx.params
     try {
         const IsPermission = await AuthrService.checkMoment(momentId, id)
-        console.log(IsPermission);
         if (!IsPermission) {
             const error = new Error(errType.UNPERMISSION)
             return ctx.app.emit('error', error, ctx)
