@@ -59,12 +59,15 @@ const vertifyAuth = async (ctx, next) => {
 
 }
 
-//用于验证用户是否拥有修改某条心情的权限
+//用于验证用户是否拥有某项权限的权限
 const vertifyPermission = async (ctx, next) => {
     const { id } = ctx.user
-    const { momentId } = ctx.params
+    const [resource] = Object.keys(ctx.params)
+    const tableName = resource.replace("Id", "")
+    const resourceId = ctx.params[resource]
+    console.log(resourceId);
     try {
-        const IsPermission = await AuthrService.checkMoment(momentId, id)
+        const IsPermission = await AuthrService.checkResource(tableName, resourceId, id)
         if (!IsPermission) {
             const error = new Error(errType.UNPERMISSION)
             return ctx.app.emit('error', error, ctx)
