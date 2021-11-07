@@ -65,7 +65,6 @@ const vertifyPermission = async (ctx, next) => {
     const [resource] = Object.keys(ctx.params)
     const tableName = resource.replace("Id", "")
     const resourceId = ctx.params[resource]
-    console.log(resourceId);
     try {
         const IsPermission = await AuthrService.checkResource(tableName, resourceId, id)
         if (!IsPermission) {
