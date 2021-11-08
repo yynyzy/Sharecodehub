@@ -4,7 +4,8 @@
 const Router = require('koa-router')
 
 const { vertifyAuth, vertifyPermission } = require('../middleware/auth.middleware')
-const { create, detail, list, update, remove } = require('../controller/moment.controller')
+const { vertifyLabelExists } = require('../middleware/label.middleware')
+const { create, detail, list, update, remove, addLabels } = require('../controller/moment.controller')
 
 const momentRouter = new Router({ prefix: '/moment' })
 
@@ -16,6 +17,8 @@ momentRouter.get('/:momentId', detail)
 momentRouter.patch('/:momentId', vertifyAuth, vertifyPermission, update)
 //删除用户发表的心情的路由
 momentRouter.delete('/:momentId', vertifyAuth, vertifyPermission, remove)
+// 给动态添加标签
+momentRouter.post('/:momentId/labels', vertifyAuth, vertifyPermission, vertifyLabelExists, addLabels)
 
 
 module.exports = momentRouter

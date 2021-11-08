@@ -33,6 +33,11 @@ class MomentCroller {
         const result = await momentService.remove(momentId)
         ctx.body = result
     }
+    async addLabels(ctx, next) {
+
+        // const result = await momentService.addLabels(labels)
+        // ctx.body = result
+    }
 }
 
 module.exports = new MomentCroller()

@@ -52,6 +52,10 @@ class MomentService {
         return result
     }
 
+    async addLabels(labels) {
+        return result
+    }
+
 }
 
 module.exports = new MomentService()
