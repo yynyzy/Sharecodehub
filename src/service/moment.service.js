@@ -10,16 +10,22 @@ class MomentService {
         const result = await connections.execute(statement, [content, userid])
     }
 
-    async getMomentById(id) {
+    async getMomentById(_id) {
         const statement = `
         SELECT
-            m.id id, m.content content, m.createAt createtime, m.updateAt updateTime,
-            JSON_OBJECT('id',u.id,'name',u.name) user
+        m.id id, m.content content, m.createAt createtime, m.updateAt updateTime,
+        JSON_OBJECT('id',u.id,'name',u.name) user,
+        IF(COUNT(l.id),JSON_ARRAYAGG(
+            JSON_OBJECT('id',l.id,'name',l.name)
+        ),null) labels
         FROM moment m
         LEFT JOIN user u ON m.user_id = u.id
-        WHERE m.id = ?;
+        LEFT JOIN moment_label ml ON ml.moment_id = m.id
+        LEFT JOIN label l ON ml.label_id = l.id
+        WHERE m.id = ?
+        GROUP BY m.id
         `
-        const result = await connections.execute(statement, [id])
+        const result = await connections.execute(statement, [_id])
         return result[0];
     }
 
@@ -28,7 +34,8 @@ class MomentService {
         SELECT
             m.id id, m.content content, m.createAt createtime, m.updateAt updateTime,
             JSON_OBJECT('id',u.id,'name',u.name) user,
-            (SELECT COUNT(*) FROM comment c WHERE c.comment_id = m.id) commentCount
+            (SELECT COUNT(*) FROM comment c WHERE c.comment_id = m.id) commentCount,
+            (SELECT COUNT(*) FROM moment_label ml WHERE ml.moment_id = m.id) labelCount
         FROM moment m
         LEFT JOIN user u ON m.user_id = u.id
         LIMIT ?, ?;
@@ -58,7 +65,6 @@ class MomentService {
         const [result] = await connections.execute(statement, [momentId, labelId])
         return result[0] ? true : false
     }
-
     async addLabels(momentId, labelId) {
         const statement = `
         INSERT INTO moment_label (moment_id,label_id) VALUES(?, ?)
