@@ -34,9 +34,16 @@ class MomentCroller {
         ctx.body = result
     }
     async addLabels(ctx, next) {
-
-        // const result = await momentService.addLabels(labels)
-        // ctx.body = result
+        //给动态添加标签时进行判断，已经添加过的就不需要在添加
+        const { labels } = ctx
+        const { momentId } = ctx.params
+        for (const label of labels) {
+            const isExist = await momentService.hasLabel(momentId, label.id)
+            if (!isExist) {
+                await momentService.addLabels(momentId, label.id)
+            }
+        }
+        ctx.body = "标签添加成功"
     }
 }
 

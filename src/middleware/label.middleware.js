@@ -1,4 +1,6 @@
 const LabelService = require("../service/label.service")
+
+//在给动态添加标签之前，看是否创建过这些标签，如果没有则创建，有就放入到数组中，供下一个中间件使用
 const vertifyLabelExists = async (ctx, next) => {
     const { labels } = ctx.request.body
     const newlabels = []
@@ -14,7 +16,6 @@ const vertifyLabelExists = async (ctx, next) => {
         newlabels.push(label)
     }
     ctx.labels = newlabels
-
     await next()
 }
 
