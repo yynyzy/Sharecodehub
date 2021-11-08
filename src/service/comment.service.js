@@ -1,3 +1,6 @@
+/**
+ *  回复相关的服务
+ */
 const connections = require('../app/database')
 
 class CommentService {
