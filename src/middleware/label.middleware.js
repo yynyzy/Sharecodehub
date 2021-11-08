@@ -13,7 +13,6 @@ const vertifyLabelExists = async (ctx, next) => {
         }
         newlabels.push(label)
     }
-    console.log(newlabels);
     ctx.labels = newlabels
 
     await next()

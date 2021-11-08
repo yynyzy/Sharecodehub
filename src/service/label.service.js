@@ -12,7 +12,7 @@ class LabelService {
         const statement = `
         SELECT * FROM label WHERE name = ?;
         `
-        const result = await connections.execute(statement, [name])
+        const [result] = await connections.execute(statement, [name])
         return result[0]
     }
 }
