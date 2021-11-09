@@ -1,3 +1,6 @@
+/**
+ *   上传图片相关路由
+ */
 const Router = require('koa-router')
 
 const { vertifyAuth } = require('../middleware/auth.middleware')
