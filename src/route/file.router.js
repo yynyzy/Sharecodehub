@@ -4,8 +4,8 @@
 const Router = require('koa-router')
 
 const { vertifyAuth } = require('../middleware/auth.middleware')
-const { avatarHandler } = require('../middleware/file.middleware')
-const { saveavatarInfo } = require('../controller/file.controller')
+const { avatarHandler, pictureHandler } = require('../middleware/file.middleware')
+const { saveavatarInfo, savepictureInfo } = require('../controller/file.controller')
 const { getAvatarInfo } = require('../controller/user.controller')
 
 
@@ -13,5 +13,6 @@ const fileRouter = new Router({ prefix: '/upload' })
 
 fileRouter.post('/avatar', vertifyAuth, avatarHandler, saveavatarInfo)
 fileRouter.get('/:userId/avatar', getAvatarInfo)
+fileRouter.post('/picture', vertifyAuth, pictureHandler, savepictureInfo)
 
 module.exports = fileRouter
