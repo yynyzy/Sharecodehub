@@ -36,10 +36,10 @@ class CommentService {
     async list(momentId) {
         const statement = `
         SELECT c.id, c.content, c.comment_id commentId, c.createAt createTime,
-        JSON_OBJECT("id",u.id,"name",u.name) author 
+        JSON_OBJECT("id",u.id,"name",u.name,'avatarUrl',u.avatar_url) author 
         FROM comment c
         LEFT JOIN user u ON u.id = c.user_id
-        WHERE comment_id = 3
+        WHERE comment_id = ?
         `
         const result = await connections.execute(statement, [momentId])
         return result

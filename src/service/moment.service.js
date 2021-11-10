@@ -14,7 +14,7 @@ class MomentService {
         const statement = `
         SELECT
         m.id id, m.content content, m.createAt createtime, m.updateAt updateTime,
-        JSON_OBJECT('id',u.id,'name',u.name) user,
+        JSON_OBJECT('id',u.id,'name',u.name,'avatarUrl',u.avatar_url) user,
         IF(COUNT(l.id),JSON_ARRAYAGG(
             JSON_OBJECT('id',l.id,'name',l.name)
         ),null) labels

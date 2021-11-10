@@ -1,6 +1,9 @@
 const fileService = require('../service/file.service')
+const userService = require('../service/user.service')
+const { APP_PORT, APP_HOST } = require('../app/config')
 
 class FileController {
+    //上传图片头像
     async saveavatarInfo(ctx, next) {
         //获取图片相关信息
         const { filename, mimetype, size } = ctx.req.file
@@ -8,7 +11,11 @@ class FileController {
 
         //将图片信息保存到数据库中
         const result = await fileService.createAvatar(filename, mimetype, size, id)
-        ctx.body = result
+
+        //将图片地址保存到user表中
+        const avatar_url = `${APP_HOST}:${APP_PORT}/user/${id}/avatar`
+        await userService.updataAvatarUrlById(avatar_url, id)
+        ctx.body = "图片上传成功"
     }
 
 

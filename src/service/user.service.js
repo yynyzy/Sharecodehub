@@ -14,5 +14,12 @@ class UserService {
         const result = await connections.execute(statement, [name])
         return result[0]
     }
+    //上传图片头像后，往user表中新加新的一列
+    async updataAvatarUrlById(AvatarUrl, userId) {
+        console.log(AvatarUrl);
+        const statement = `UPDATE user SET avatar_url = ? WHERE id = ?`
+        const result = await connections.execute(statement, [AvatarUrl, userId])
+        return result
+    }
 }
 module.exports = new UserService();

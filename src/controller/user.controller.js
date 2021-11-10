@@ -18,7 +18,6 @@ class UserController {
         const avatarInfo = await fileService.getAvatarInfo(userId)
         //提供图像信息
         ctx.response.set('Content-Type', avatarInfo.mimetype)
-        console.log(fs.createReadStream(`${AVATAR_PATH}/${avatarInfo.filename}`))
         ctx.body = fs.createReadStream(`${AVATAR_PATH}/${avatarInfo.filename}`)
     }
 }
