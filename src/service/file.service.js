@@ -26,5 +26,11 @@ class fileService {
         console.log(result);
         return result
     }
+
+    async getFileByFilename(filename) {
+        const statement = `SELECT * FROM file WHERE filename =?`
+        const [result] = await connections.execute(statement, [filename])
+        return result[0]
+    }
 }
 module.exports = new fileService();

@@ -1,5 +1,8 @@
-const momentService = require('../service/moment.service')
+const fs = require('fs');
 
+const momentService = require('../service/moment.service')
+const fileService = require('../service/file.service')
+const { PICTURE_PATH } = require('../constants/file-path')
 class MomentCroller {
     //创建一条心情
     async create(ctx, next) {
@@ -44,6 +47,13 @@ class MomentCroller {
             }
         }
         ctx.body = "标签添加成功"
+    }
+
+    async fileInfo(ctx, next) {
+        const { filename } = ctx.params
+        const fileInfo = await fileService.getFileByFilename(filename)
+        ctx.response.set('content-type', fileInfo.mimetype)
+        ctx.body = fs.createReadStream(`${PICTURE_PATH}/${filename}`)
     }
 }
 
