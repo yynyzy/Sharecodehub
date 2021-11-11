@@ -59,7 +59,7 @@ class MomentCroller {
         if (types.some(item => item === type)) {
             filename = filename + '-' + type
         }
-        ctx.response.set('content-type', fileInfo.mimetype)
+        ctx.response.set('Content-Type', fileInfo.mimetype)
         ctx.body = fs.createReadStream(`${PICTURE_PATH}/${filename}
         `)
     }
