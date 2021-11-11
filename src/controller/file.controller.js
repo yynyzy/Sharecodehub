@@ -22,12 +22,10 @@ class FileController {
         const files = ctx.req.files
         const { momentId } = ctx.query
         const { id } = ctx.user
-        console.log(files);
         for (const file of files) {
             const { filename, mimetype, size } = file
             await fileService.createPicture(filename, mimetype, size, momentId, id)
         }
-        console.log(1);
         ctx.body = "图片上传成功"
     }
 
