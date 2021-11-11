@@ -3,6 +3,7 @@ const fs = require('fs');
 const momentService = require('../service/moment.service')
 const fileService = require('../service/file.service')
 const { PICTURE_PATH } = require('../constants/file-path')
+
 class MomentCroller {
     //创建一条心情
     async create(ctx, next) {
@@ -50,7 +51,8 @@ class MomentCroller {
     }
 
     async fileInfo(ctx, next) {
-        const { filename } = ctx.params
+        let { filename } = ctx.params
+        console.log(filename);
         const fileInfo = await fileService.getFileByFilename(filename)
         const { type } = ctx.query
         const types = ["small", "middle", "large"]
@@ -59,7 +61,6 @@ class MomentCroller {
         }
         ctx.response.set('content-type', fileInfo.mimetype)
         ctx.body = fs.createReadStream(`${PICTURE_PATH}/${filename}
-        -small
         `)
     }
 }

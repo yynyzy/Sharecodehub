@@ -18,8 +18,8 @@ const pictureHandler = pictureUpload.array('picture', 9)
 
 const pictureResize = async (ctx, next) => {
     const files = ctx.req.files
-    const destPath = path.join(file.destination, file.filename)
     for (let file of files) {
+        const destPath = path.join(file.destination, file.filename)
         Jimp.read(file.path).then(image => {
             image.resize(1280, Jimp.AUTO).write(`${destPath}-large`)
             image.resize(640, Jimp.AUTO).write(`${destPath}-middle`)

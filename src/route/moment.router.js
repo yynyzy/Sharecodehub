@@ -21,4 +21,6 @@ momentRouter.delete('/:momentId', vertifyAuth, vertifyPermission, remove)
 momentRouter.post('/:momentId/labels', vertifyAuth, vertifyPermission, vertifyLabelExists, addLabels)
 //动态配图的服务
 momentRouter.get('/images/:filename', fileInfo)
+
+
 module.exports = momentRouter
